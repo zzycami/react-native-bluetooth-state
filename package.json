@@ -13,6 +13,5 @@
     "bluetooth",
     "bluetooth-state"
   ],
-  "main": "RNBluetoothState.ios.js",
   "devDependencies": {}
 }
