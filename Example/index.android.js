@@ -10,19 +10,34 @@ import {
   Text,
   View
 } from 'react-native';
+import BluetoothState from 'react-native-bluetooth-state';
 
 class Example extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      bluetooth: 'unknown',
+    };
+  }
+
+  componentDidMount() {
+    BluetoothState.subscribe(bluetoothState => {
+      this.setState({ bluetooth: bluetoothState });
+    });
+
+    BluetoothState.initialize();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          What's the state of my bluetooth?
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
+          {this.state.bluetooth}
         </Text>
       </View>
     );

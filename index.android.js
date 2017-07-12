@@ -6,7 +6,30 @@
  */
 'use strict';
 
-var React = require('react-native');
-var RNBluetoothState = React.NativeModules.RNBluetoothState;
+import { DeviceEventEmitter, NativeModules } from 'react-native';
+const { RNBluetoothState } = NativeModules;
 
-module.exports = RNBluetoothState;
+let subscribers = [];
+
+DeviceEventEmitter.addListener('centralManagerDidUpdateState', (...args) => {
+  subscribers.forEach(subscriber => {
+    subscriber.apply(this, args);
+  });
+});
+
+const BluetoothState = {
+  initialize() {
+    RNBluetoothState.initialize();
+  },
+  subscribe(callback) {
+    subscribers.push(callback);
+  },
+  unsubscribe(callback) {
+    subscribers = subscribers.filter(fn => callback !== fn);
+  },
+  clear() {
+    subscribers = [];
+  }
+};
+
+export default BluetoothState;
