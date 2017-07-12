@@ -36,3 +36,5 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+android/build
+android/gradle
